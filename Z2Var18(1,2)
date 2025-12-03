@@ -72,3 +72,30 @@ int main() {
 
     return 0;
 }
+
+3 programma
+
+#include <stdio.h>
+#include <string.h>
+#include <locale>
+int readSum(const char* fname) {
+    FILE* f, *fw;
+    fopen_s(&f, fname, "r");
+    fopen_s(&fw, fname, "r");
+    if (f == NULL) {
+        printf("file not open");
+        return -1;
+    }
+    int sum = 0;
+    int a;
+    while (fscanf_s(f,"%d",&a)==1) {
+    fprintf(fw, "%d", &a) ;
+    sum += a;
+    }
+    return sum;
+}
+int main(){
+    setlocale(LC_ALL, "Russian");
+    int sum = readSum("digit.txt");
+    printf("%d", sum);
+}
