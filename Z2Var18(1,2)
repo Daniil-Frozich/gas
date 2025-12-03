@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAXN 100
+#define MAXM 100
+#define MAX_TEXT 20000
+
+void count_rows_with_zero(int a[][MAXM], int n, int m, int *result) {
+    *result = 0;
+    for (int i = 0; i < n; i++) {
+        int has_zero = 0;
+        for (int j = 0; j < m; j++) {
+            if (a[i][j] == 0) {
+                has_zero = 1;
+                break;
+            }
+        }
+        if (has_zero) (*result)++;
+    }
+}
+
+
+void longest_series_column(int a[][MAXM], int n, int m, int *col_result) {
+    int best_col = 0;
+    int best_len = 1;
+
+    for (int j = 0; j < m; j++) {
+        int current_len = 1;
+        int max_len = 1;
+        for (int i = 1; i < n; i++) {
+            if (a[i][j] == a[i - 1][j]) {
+                current_len++;
+                if (current_len > max_len)
+                    max_len = current_len;
+            } else {
+                current_len = 1;
+            }
+        }
+        if (max_len > best_len) {
+            best_len = max_len;
+            best_col = j;
+        }
+    }
+
+    *col_result = best_col;
+}
+
+int main() {
+    int n, m;
+    int a[MAXN][MAXM];
+
+    printf("Введите n и m: ");
+    scanf("%d %d", &n, &m);
+
+    printf("Введите матрицу:\n");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            scanf("%d", &a[i][j]);
+
+    int rows_with_zero;
+    int column;
+
+    /* Вызовы функций */
+
+    count_rows_with_zero(a, n, m, &rows_with_zero);
+    printf("\n1) Строк с хотя бы одним нулём: %d\n", rows_with_zero);
+
+    longest_series_column(a, n, m, &column);
+    printf("2) Столбец с самой длинной серией одинаковых элементов: %d\n", column+1);
+
+    return 0;
+}
