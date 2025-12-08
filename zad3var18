@@ -1,0 +1,72 @@
+#include <stdio.h>
+
+// Функция для чтения файла
+int readFile(char sentences[][100]) {
+    FILE* file = fopen("text.txt", "r");
+    if (file == NULL) {
+        return 0; // Файл не найден
+    }
+    
+    int count = 0; // Счетчик предложений
+    char c; // Текущий символ
+    int pos = 0; // Позиция в текущем предложении
+    
+    // Читаем файл посимвольно
+    while ((c = fgetc(file)) != EOF) {
+        if (c == '.' || c == '!' || c == '?') {
+            // Конец предложения
+            sentences[count][pos] = c;
+            sentences[count][pos + 1] = '\0';
+            count++;
+            pos = 0;
+        } else if (pos < 99) {
+            // Добавляем символ в текущее предложение
+            sentences[count][pos] = c;
+            pos++;
+        }
+    }
+    
+    fclose(file);
+    
+    // Если осталось незаконченное предложение
+    if (pos > 0) {
+        sentences[count][pos] = '\0';
+        count++;
+    }
+    
+    return count; // Возвращаем количество предложений
+}
+
+// Функция для вывода предложений в обратном порядке
+void printBackwards(char sentences[][100], int count) {
+    printf("Предложения в обратном порядке:\n");
+    printf("------------------------------\n");
+    
+    // Выводим с конца к началу
+    for (int i = count - 1; i >= 0; i--) {
+        printf("%s\n", sentences[i]);
+    }
+    
+    printf("------------------------------\n");
+    printf("Всего предложений: %d\n", count);
+}
+
+// Основная функция
+int main() {
+    char sentences[50][100]; // Массив для предложений
+    int count; // Количество предложений
+    
+    // Читаем предложения из файла
+    count = readFile(sentences);
+    
+    if (count == 0) {
+        printf("Файл не найден или пуст!\n");
+        printf("Создайте файл text.txt с текстом.\n");
+        return 1;
+    }
+    
+    // Выводим предложения в обратном порядке
+    printBackwards(sentences, count);
+    
+    return 0;
+}
