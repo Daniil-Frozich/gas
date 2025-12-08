@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <locale.h>
+
+int readSum(const char* filename) {
+    FILE* input = fopen(filename, "r");
+    if (input == NULL) {
+        printf("Error: Cannot open input file '%s'\n", filename);
+        return -1;
+    }
+    
+    FILE* output = fopen("result.txt", "w");
+    if (output == NULL) {
+        printf("Error: Cannot create output file\n");
+        fclose(input);
+        return -1;
+    }
+    
+    int sum = 0;
+    int number;
+    int count = 0;
+    
+    printf("Reading numbers from '%s':\n", filename);
+    while (fscanf(input, "%d", &number) == 1) {
+        fprintf(output, "%d\n", number);
+        sum += number;
+        count++;
+        printf("Read: %d\n", number);
+    }
+    
+    fprintf(output, "Sum: %d\n", sum);
+    fprintf(output, "Count: %d\n", count);
+    
+    fclose(input);
+    fclose(output);
+    
+    printf("Successfully processed %d numbers\n", count);
+    return sum;
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    
+    printf("Программа для суммирования чисел из файла\n");
+    
+    int sum = readSum("digit.txt");
+    
+    if (sum != -1) {
+        printf("\nСумма всех чисел: %d\n", sum);
+        printf("Результат также записан в файл 'result.txt'\n");
+    }
+    
+    return 0;
+}
