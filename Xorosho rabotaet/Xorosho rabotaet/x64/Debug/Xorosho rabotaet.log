@@ -1,0 +1,5 @@
+﻿  MyString.cpp
+C:\Users\dvromantsev\source\repos\Xorosho rabotaet\Xorosho rabotaet\MyString.cpp(17,18): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  Xorosho rabotaet.cpp
+  Создание кода...
+  Xorosho rabotaet.vcxproj -> C:\Users\dvromantsev\source\repos\Xorosho rabotaet\x64\Debug\Xorosho rabotaet.exe
